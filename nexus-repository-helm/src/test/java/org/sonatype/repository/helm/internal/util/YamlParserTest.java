@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.sonatype.goodies.testsupport.TestSupport;
@@ -36,7 +37,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class YamlParserTest
     extends TestSupport
@@ -75,7 +76,11 @@ public class YamlParserTest
     underTest.write(os, createChartIndex());
 
     assertThat(os, is(notNullValue()));
-    assertEquals(StringUtils.normalizeSpace(os.toString()), StringUtils.normalizeSpace(expectedResult));
+    String[] osArray = StringUtils.normalizeSpace(os.toString()).split(" ");
+    String[] expectedArray = StringUtils.normalizeSpace(expectedResult).split(" ");
+    Arrays.sort(osArray);
+    Arrays.sort(expectedArray);
+    assertArrayEquals(osArray, expectedArray);
   }
 
   private List<String> getKeywords() {
